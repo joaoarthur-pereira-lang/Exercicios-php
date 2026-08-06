@@ -1,71 +1,63 @@
 <?php
 
-
- function contarMaiusculas(senha) {
-    const match = senha.match(/[A-Z]/g);
-    return match ? match.length : 0;
+function contarPorRegex($senha, $regex) {
+    preg_match_all($regex, $senha, $encontrados);
+    return count($encontrados[0]);
 }
 
-function contarMinusculas(senha) {
-    const match = senha.match(/[a-z]/g);
-    return match ? match.length : 0;
+function contarMaiusculas($senha) {
+    return contarPorRegex($senha, '/[A-Z]/');
 }
 
-function contarNumeros(senha) {
-    const match = senha.match(/[0-9]/g);
-    return match ? match.length : 0;
+function contarMinusculas($senha) {
+    return contarPorRegex($senha, '/[a-z]/');
 }
 
-function contarCaracteresEspeciais(senha) {
-    const match = senha.match(/[^a-zA-Z0-9]/g);
-    return match ? match.length : 0;
+function contarNumeros($senha) {
+    return contarPorRegex($senha, '/[0-9]/');
 }
 
-function obterTamanhoSenha(senha) {
-    return senha.length;
+function contarEspeciais($senha) {
+    return contarPorRegex($senha, '/[^A-Za-z0-9]/');
 }
 
-function classificarSeguranca(senha) {
-  const tamanho = obterTamanho(senha);
-  const temMaiuscula = contarMaiusculas(senha) > 0;
-  const temMinuscula = contarMinusculas(senha) > 0;
-  const temNumero = contarNumeros(senha) > 0;
-  const temEspecial = contarCaracteresEspeciais(senha) > 0;
- 
-  const criteriosAtendidos = [
-    temMaiuscula,
-    temMinuscula,
-    temNumero,
-    temEspecial,
-  ].filter(Boolean).length;
- 
-  const tamanhoMinimo = tamanho >= 8;
+function classificarSeguranca($senha, $maiusculas, $minusculas, $numeros, $especiais) {
+    $criterios = [
+        strlen($senha) >= 8,
+        $maiusculas > 0,
+        $minusculas > 0,
+        $numeros > 0,
+        $especiais > 0
+    ];
 
-  if (!tamanhoMinimo || criteriosAtendidos <= 1) {
-    return "Fraca";
-  }
- 
-  if (criteriosAtendidos === 2) {
-    return "Média";
-  }
- 
-  if (criteriosAtendidos === 3) {
-    return "Forte";
-  }
+    $totalCriterios = count(array_filter($criterios));
 
-  return "Muito Forte";
+    if ($totalCriterios <= 2) return "Fraca";
+    if ($totalCriterios === 3) return "Média";
+    if ($totalCriterios === 4) return "Forte";
+    return "Muito Forte";
 }
 
-function analisarSenha(senha) {
-  return [
-    { criterio: "Letras maiúsculas", valor: contarMaiusculas(senha) },
-    { criterio: "Letras minúsculas", valor: contarMinusculas(senha) },
-    { criterio: "Números", valor: contarNumeros(senha) },
-    { criterio: "Caracteres especiais", valor: contarCaracteresEspeciais(senha) },
-    { criterio: "Tamanho da senha", valor: obterTamanho(senha) },
-    { criterio: "Nível de segurança", valor: classificarSeguranca(senha) },
-  ];
+function exibirRelatorio($senha) {
+    $maiusculas = contarMaiusculas($senha);
+    $minusculas = contarMinusculas($senha);
+    $numeros = contarNumeros($senha);
+    $especiais = contarEspeciais($senha);
+    $tamanho = strlen($senha);
+    $nivel = classificarSeguranca($senha, $maiusculas, $minusculas, $numeros, $especiais);
+
+    echo "Senha: $senha<br>";
+    echo "Letras maiúsculas: $maiusculas<br>";
+    echo "Letras minúsculas: $minusculas<br>";
+    echo "Números: $numeros<br>";
+    echo "Caracteres especiais: $especiais<br>";
+    echo "Tamanho da senha: $tamanho<br>";
+    echo "Nível de segurança: $nivel<br>";
+    echo "<br>";
 }
 
-
-
+exibirRelatorio("abc123");
+exibirRelatorio("Abcdefg1");
+exibirRelatorio("Abcdef1!");
+exibirRelatorio("A1b2c3d4#\$");
+?>
