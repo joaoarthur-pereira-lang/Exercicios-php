@@ -25,6 +25,36 @@ function obterTamanhoSenha(senha) {
     return senha.length;
 }
 
-function classificarSegurança
+function classificarSeguranca(senha) {
+  const tamanho = obterTamanho(senha);
+  const temMaiuscula = contarMaiusculas(senha) > 0;
+  const temMinuscula = contarMinusculas(senha) > 0;
+  const temNumero = contarNumeros(senha) > 0;
+  const temEspecial = contarCaracteresEspeciais(senha) > 0;
+ 
+  const criteriosAtendidos = [
+    temMaiuscula,
+    temMinuscula,
+    temNumero,
+    temEspecial,
+  ].filter(Boolean).length;
+ 
+  const tamanhoMinimo = tamanho >= 8;
+
+  if (!tamanhoMinimo || criteriosAtendidos <= 1) {
+    return "Fraca";
+  }
+ 
+  if (criteriosAtendidos === 2) {
+    return "Média";
+  }
+ 
+  if (criteriosAtendidos === 3) {
+    return "Forte";
+  }
+
+  return "Muito Forte";
+}
+
 
 
