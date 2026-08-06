@@ -56,5 +56,16 @@ function classificarSeguranca(senha) {
   return "Muito Forte";
 }
 
+function analisarSenha(senha) {
+  return [
+    { criterio: "Letras maiúsculas", valor: contarMaiusculas(senha) },
+    { criterio: "Letras minúsculas", valor: contarMinusculas(senha) },
+    { criterio: "Números", valor: contarNumeros(senha) },
+    { criterio: "Caracteres especiais", valor: contarCaracteresEspeciais(senha) },
+    { criterio: "Tamanho da senha", valor: obterTamanho(senha) },
+    { criterio: "Nível de segurança", valor: classificarSeguranca(senha) },
+  ];
+}
+
 
 
