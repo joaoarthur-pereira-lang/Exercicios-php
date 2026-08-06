@@ -18,6 +18,4 @@ function calcularFormula($x, $y)
     echo "Valor de X: $x <br>";
     echo "Valor de Y: $y <br><br>";
     echo "Resultado: " . calcularFormula($x, $y);
-
-
 ?>

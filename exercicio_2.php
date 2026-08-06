@@ -22,10 +22,4 @@ $resultado = inverterTexto($texto_usuario);
 echo "Texto invertido: " , $resultado["invertido"];
 echo "<br>";
 echo "Quantidade de caracteres: " , $resultado["quantidade"];
-
-
-
-
-
-
 ?>
