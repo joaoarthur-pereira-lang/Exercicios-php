@@ -30,7 +30,6 @@ function calcularMedia(notas) {
     };
 }
 
-// Exemplo
 let notas = [8, 6, 7, 9];
 
 console.log(calcularMedia(notas));
