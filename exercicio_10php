@@ -1,37 +1,37 @@
 <?php
 
-function calcularMedia(array $notas): array
-{
-    $maiorNota = max($notas);
-    $menorNota = min($notas);
-    $media = array_sum($notas) / count($notas);
+function calcularMedia(notas) {
+    let maior = Math.max(...notas);
+    let menor = Math.min(...notas);
 
-    if ($media >= 7) {
-        $situacao = 'Aprovado';
-    } elseif ($media >= 5) {
-        $situacao = 'Recuperação';
-    } else {
-        $situacao = 'Reprovado';
+    let soma = 0;
+
+    for (let nota of notas) {
+        soma += nota;
     }
 
-    return [
-        'maiorNota' => $maiorNota,
-        'menorNota' => $menorNota,
-        'media' => round($media, 2),
-        'situacao' => $situacao,
-    ];
+    let media = soma / notas.length;
+
+    let situacao;
+
+    if (media >= 7) {
+        situacao = "Aprovado";
+    } else if (media >= 5) {
+        situacao = "Recuperação";
+    } else {
+        situacao = "Reprovado";
+    }
+
+    return {
+        maiorNota: maior,
+        menorNota: menor,
+        media: media,
+        situacaoFinal: situacao
+    };
 }
 
-$notasAluno1 = [8.5, 7.0, 9.0, 6.5];
-$notasAluno2 = [4.0, 5.5, 6.0, 5.0];
-$notasAluno3 = [2.0, 3.5, 4.0, 3.0];
+// Exemplo
+let notas = [8, 6, 7, 9];
 
-foreach ([$notasAluno1, $notasAluno2, $notasAluno3] as $notas) {
-    $resultado = calcularMedia($notas);
-    echo "Maior nota: " . $resultado['maiorNota'] . "<br>";
-    echo "Menor nota: " . $resultado['menorNota'] . "<br>";
-    echo "Média: " . $resultado['media'] . "<br>";
-    echo "Situação: " . $resultado['situacao'] . "<br>";
-    echo "------------------------<br>";
-}
+console.log(calcularMedia(notas));
 ?>
